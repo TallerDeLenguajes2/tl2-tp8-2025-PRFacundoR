@@ -1,0 +1,14 @@
+@{
+ViewData["Title"] = "Home Page";
+}
+
+@model List<Productos>
+
+<ul>
+@foreach (Productos producto in Model)
+{
+<li> @producto.IdProducto</li>
+<li>@producto.Descripcion</li>
+<li>@producto.Precio </li>
+}
+</ul>

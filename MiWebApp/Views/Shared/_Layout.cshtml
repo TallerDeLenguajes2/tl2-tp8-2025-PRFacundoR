@@ -26,13 +26,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                          <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Producto">Producto</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DetalleProducto">Detalle Producto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Presupuestos">Presupuesto</a>
+                      <!-- asp-controller="Productos", deberia ir a estos controladores y ejecutar el metodo con asp-action="Index"-->
+                      <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Presupuesto" asp-action="Index">Presupuesto</a>
                         </li>
                     </ul>
                 </div>
