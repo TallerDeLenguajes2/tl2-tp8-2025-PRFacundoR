@@ -1,0 +1,27 @@
+@model Productos
+<section>
+    <h3>CREAR PRODUCTOS</h3>
+</section>
+<section>
+<form asp-controller="Productos" asp-action="Create" >
+    
+    <section>
+        <label asp-for="IdProducto">Id del producto</label>
+        <input asp-for="IdProducto" class="form-control" />
+    </section>
+
+    <section>
+        <label asp-for="Descripcion">Descripcion del producto</label>
+        <input asp-for="Descripcion" class="form-control" />
+    </section>
+
+    <section>
+        <label asp-for="Precio">Precio del producto</label>
+        <input asp-for="Precio" class="form-control" />
+    </section>
+     <button type="submit">Enviar</button>
+</form>
+
+
+</section>
+

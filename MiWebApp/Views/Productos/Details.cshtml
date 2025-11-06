@@ -1,0 +1,27 @@
+
+@model Productos
+<section>
+    <h3>ENCONTRAR PRODUCTOS</h3>
+</section>
+<section>
+<form asp-controller="Productos" asp-action="Details" >
+    
+    <section>
+        <label asp-for="Descripcion">Descripcion del producto</label>
+        <input asp-for="Descripcion" class="form-control" />
+    </section>
+     <button type="submit">Enviar</button>
+</form>
+
+
+</section>
+
+@if (Model != null && !string.IsNullOrEmpty(Model.Descripcion))
+{
+    <section>
+        <h4>Resultado:</h4>
+        <p>ID: @Model.IdProducto</p>
+        <p>Descripción: @Model.Descripcion</p>
+        <p>Precio: @Model.Precio</p>
+    </section>
+}

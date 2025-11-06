@@ -1,14 +1,41 @@
+
+
 @{
 ViewData["Title"] = "Home Page";
 }
 
 @model List<Productos>
+<section>
 
-<ul>
-@foreach (Productos producto in Model)
-{
-<li> @producto.IdProducto</li>
-<li>@producto.Descripcion</li>
-<li>@producto.Precio </li>
-}
-</ul>
+    <table class="table table-bordered table-hover">
+    <thead>
+    <caption> LISTA DE PRODUCTOS</caption>
+    </thead>
+
+        <tbody>
+    
+            <tr> 
+            <td>Productos</td>
+            <td>Descripcion</td>
+            <td>Precio</td>
+            </tr>
+
+            @foreach (Productos producto in Model)
+            {   <tr>
+                    <td> @producto.IdProducto</td>
+                    <td>@producto.Descripcion</td>
+                    <td>@producto.Precio </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+<style>
+  table caption {
+    caption-side: top;     /* Mueve el caption arriba */
+    text-align: center;    /* Lo centra */
+    font-weight: bold;     /* (opcional) lo resalta */
+    margin-bottom: 8px;    /* separa del contenido */
+  }
+</style>

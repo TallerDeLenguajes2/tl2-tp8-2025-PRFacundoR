@@ -60,30 +60,30 @@ public class PresupuestosRepository
 
     //Crear un nuevo Presupuesto. (recibe un objeto Presupuesto)
     public int CrearPresupuesto(Presupuestos presupuesto)
-{
-    int nuevoID = 0;
-
-    using (var conexion = new SqliteConnection(_coneccionADB))
     {
-        conexion.Open();
-        string sql = @"
+        int nuevoID = 0;
+
+        using (var conexion = new SqliteConnection(_coneccionADB))
+        {
+            conexion.Open();
+            string sql = @"
             INSERT INTO presupuestos (nombreDestinatario, fechaCreacion)
             VALUES (@dest, @fecha);
             SELECT last_insert_rowid();
         ";
 
-        using (var comando = new SqliteCommand(sql, conexion))
-        {
-            comando.Parameters.AddWithValue("@dest", presupuesto.NombreDestinatario);
-            comando.Parameters.AddWithValue("@fecha", presupuesto.FechaCreacion);
-            
-            // Devuelve el ID autogenerado del presupuesto
-            nuevoID = Convert.ToInt32(comando.ExecuteScalar());
-        }
-    }
+            using (var comando = new SqliteCommand(sql, conexion))
+            {
+                comando.Parameters.AddWithValue("@dest", presupuesto.NombreDestinatario);
+                comando.Parameters.AddWithValue("@fecha", presupuesto.FechaCreacion);
 
-    return nuevoID;
-}
+                // Devuelve el ID autogenerado del presupuesto
+                nuevoID = Convert.ToInt32(comando.ExecuteScalar());
+            }
+        }
+
+        return nuevoID;
+    }
 
 
 
@@ -162,26 +162,71 @@ public class PresupuestosRepository
 
 
     // Agregar un producto y una cantidad a un presupuesto (recibe un Id)
-public void AgregarProductoAPresupuesto(int idPresupuesto, int idProducto, int cantidad)
-{
-    using (var conexion = new SqliteConnection(_coneccionADB))
+    public void AgregarProductoAPresupuesto(int idPresupuesto, int idProducto, int cantidad)
     {
-        conexion.Open();
-        string sql = @"
+        using (var conexion = new SqliteConnection(_coneccionADB))
+        {
+            conexion.Open();
+            string sql = @"
             INSERT INTO presupuestoDetalle (idPresupuesto, idProducto, cantidad)
             VALUES (@idPre, @idProd, @cant);
         ";
 
-        using (var comando = new SqliteCommand(sql, conexion))
-        {
-            comando.Parameters.AddWithValue("@idPre", idPresupuesto);
-            comando.Parameters.AddWithValue("@idProd", idProducto);
-            comando.Parameters.AddWithValue("@cant", cantidad);
+            using (var comando = new SqliteCommand(sql, conexion))
+            {
+                comando.Parameters.AddWithValue("@idPre", idPresupuesto);
+                comando.Parameters.AddWithValue("@idProd", idProducto);
+                comando.Parameters.AddWithValue("@cant", cantidad);
 
-            comando.ExecuteNonQuery();
+                comando.ExecuteNonQuery();
+            }
         }
     }
-}
+
+
+    public void ActualizarPresupuesto(int idPresu, Presupuestos presu)
+    {
+
+
+        using (var conexion = new SqliteConnection(_coneccionADB))
+        {
+            conexion.Open();
+            string sql = "UPDATE presupuestos SET nombreDestinatario=@nomb, fechaCreacion=@fecha WHERE idPresupuesto=@idP";
+
+            using(var comando=new SqliteCommand(sql, conexion))
+            {
+                comando.Parameters.AddWithValue("@idP", idPresu);
+                comando.Parameters.AddWithValue("@nomb", presu.NombreDestinatario);
+                comando.Parameters.AddWithValue("@fecha", presu.FechaCreacion);
+                
+                comando.ExecuteNonQuery();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

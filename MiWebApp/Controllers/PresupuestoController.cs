@@ -6,16 +6,112 @@ namespace MiWebApp.Controllers;
 
 public class PresupuestoController: Controller
 {
-    
+    private PresupuestosRepository presu;
     public PresupuestoController()
     {
-        
+        presu = new PresupuestosRepository();
     }
 
+ [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
+        return View(presupuestos);
+
     }
+
+
+
+    [HttpGet]
+
+    public IActionResult Details()
+    {
+        return View(new Presupuestos());
+    }
+
+
+    [HttpPost]
+
+    public IActionResult Details(int id)
+    {
+        var aux = presu.obtenerPresupuestoPorId(id);
+        return View(aux);
+
+    }
+
+    //razor no distingue entre mayus y  minus
+
+    [HttpGet]
+
+    public IActionResult Create()
+    {
+        return View(new Presupuestos());
+    }
+
+
+    [HttpPost]
+
+    public IActionResult Create(Presupuestos presupuesto)
+    {
+        presu.CrearPresupuesto(presupuesto);
+        return RedirectToAction("Index");
+
+    }
+
+
+
+
+    [HttpGet]
+    public IActionResult Edit()
+    {
+
+        return View(new Presupuestos());
+    }
+
+
+
+    [HttpPost]
+    public IActionResult Edit(Presupuestos presupuesto)
+    {
+        presu.ActualizarPresupuesto(presupuesto.IdPresupuesto, presupuesto);
+        return RedirectToAction("Index");
+    }
+
+    
+    [HttpGet]
+    public IActionResult Delete()
+    {
+
+        return View(new Presupuestos());
+    }
+
+
+
+    [HttpPost]
+    public IActionResult Delete(Presupuestos presupuesto)
+    {
+        presu.borrarPresupuesto(presupuesto.IdPresupuesto);
+        return RedirectToAction("Index");
+    }
+
+      [HttpGet]
+    public IActionResult AgregarProducto()
+    {
+
+        return View(new PresupuestoDetalle());
+    }
+
+
+
+    [HttpPost]
+    public IActionResult AgregarProducto(Presupuestos presupuesto, PresupuestoDetalle detalle)
+    {
+        presu.AgregarProductoAPresupuesto(presupuesto.IdPresupuesto, detalle.Producto.IdProducto, detalle.Cantidad);
+        return RedirectToAction("Index");
+    }
+
+    
+
 
    
 

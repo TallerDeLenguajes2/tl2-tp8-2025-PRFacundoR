@@ -63,10 +63,11 @@ public int ActualizarProducto(int idProduc, Productos produc)
     {
         conexion.Open();
 
-        string sql = "UPDATE producto SET precio = @precio WHERE id_prod = @idProduc;";
+        string sql = "UPDATE productos SET precio = @precio, descripcion=@desc WHERE id_prod = @idProduc;";
 
         using (var comando = new SqliteCommand(sql, conexion))
         {
+            comando.Parameters.AddWithValue("@desc", produc.Descripcion);
             comando.Parameters.AddWithValue("@precio", produc.Precio);
             comando.Parameters.AddWithValue("@idProduc", idProduc);
 
@@ -92,16 +93,16 @@ public int ActualizarProducto(int idProduc, Productos produc)
         }
     }
 
-    public Productos ObtenerProductoPorId(int id)
+    public Productos ObtenerProductoPorNombre(string nom)
     {
         using (var conexion = new SqliteConnection(_coneccionADB))
         {
             conexion.Open();
-            string sql = "SELECT * FROM producto WHERE id_prod=@id";
+            string sql = "SELECT * FROM productos WHERE descripcion LIKE '%' || @nom || '%'";
             using (var comando = new SqliteCommand(sql, conexion))
             {
                 // Parámetro para evitar inyección SQL
-                comando.Parameters.AddWithValue("@id", id);
+                comando.Parameters.AddWithValue("@nom", nom);
                 using (var lector = comando.ExecuteReader())
                 {
                     if (lector.Read()) // si encontró el producto
