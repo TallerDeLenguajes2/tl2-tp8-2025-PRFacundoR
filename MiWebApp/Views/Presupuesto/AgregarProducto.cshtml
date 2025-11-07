@@ -1,0 +1,24 @@
+@model PresupuestoDetalle
+
+<section>
+    <h3>Agregar producto a un presupuesto</h3>
+</section>
+
+<form asp-controller="Presupuesto" asp-action="AgregarProducto" method="post">
+    <div class="mb-3">
+        <label for="IdPresupuesto" class="form-label">ID del presupuesto</label>
+        <input type="number" name="presupuesto.IdPresupuesto" min="1" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="IdProducto" class="form-label">ID del producto</label>
+        <input type="number" name="detalle.Producto.IdProducto" min="1" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Cantidad" class="form-label">Cantidad</label>
+        <input type="number" name="detalle.Cantidad" min="1" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>

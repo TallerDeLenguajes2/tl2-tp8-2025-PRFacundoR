@@ -32,9 +32,9 @@ public class PresupuestoController: Controller
 
     [HttpPost]
 
-    public IActionResult Details(int id)
+    public IActionResult Details(int IdPresupuesto)
     {
-        var aux = presu.obtenerPresupuestoPorId(id);
+        var aux = presu.obtenerPresupuestoPorId(IdPresupuesto);
         return View(aux);
 
     }

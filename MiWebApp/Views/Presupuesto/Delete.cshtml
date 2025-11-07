@@ -1,0 +1,18 @@
+@model Presupuestos
+<section>
+    <h3>BORRAR PRESUPUESTOS</h3>
+</section>
+<section>
+<form asp-controller="Presupuesto" asp-action="Delete" >
+    
+    <section>
+        <label asp-for="IdPresupuesto">Id del Presupuesto</label>
+        <input asp-for="IdPresupuesto" class="form-control" />
+    </section>
+
+   
+     <button type="submit">Enviar</button>
+</form>
+
+
+</section>

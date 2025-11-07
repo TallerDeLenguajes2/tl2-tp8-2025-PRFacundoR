@@ -1,0 +1,27 @@
+@model Presupuestos
+<section>
+    <h3>CREAR PRESUPUESTOS</h3>
+</section>
+<section>
+<form asp-controller="Presupuesto" asp-action="Create" >
+    
+    <section>
+        <label asp-for="IdPresupuesto">Id del Presupuesto</label>
+        <input asp-for="IdPresupuesto" class="form-control" />
+    </section>
+
+    <section>
+        <label asp-for="NombreDestinatario">Nombre del Destinatario </label>
+        <input asp-for="NombreDestinatario" class="form-control" />
+    </section>
+
+    <section>
+        <label asp-for="FechaCreacion">Fecha del Presupuesto</label>
+        <input asp-for="FechaCreacion" class="form-control" />
+    </section>
+     <button type="submit">Enviar</button>
+</form>
+
+
+</section>
+

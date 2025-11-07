@@ -1,0 +1,84 @@
+
+@model Presupuestos
+
+<section>
+    <h3>ENCONTRAR PRESUPUESTOS</h3>
+</section>
+
+<section>
+    <form asp-controller="Presupuesto" asp-action="Details" method="post">
+        <section>
+            <label asp-for="IdPresupuesto">Id del Presupuesto</label>
+            <input asp-for="IdPresupuesto" type="number" min="1" class="form-control" />
+        </section>
+        <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+    </form>
+</section>
+
+@if (Model != null && Model.Detalle != null && Model.Detalle.Any())
+{
+    <section>
+        <table class="table table-bordered table-hover">
+            <caption>LISTA DE PRESUPUESTOS</caption>
+
+            <thead>
+                <tr>
+                    <th>ID Presupuesto</th>
+                    <th>Nombre Destinatario</th>
+                    <th>Fecha Creación</th>
+                    <th>Monto sin IVA</th>
+                    <th>Monto con IVA</th>
+                    <th>Cantidad Total de Productos</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>@Model.IdPresupuesto</td>
+                    <td>@Model.NombreDestinatario</td>
+                    <td>@Model.FechaCreacion.ToShortDateString()</td>
+                    <td>@Model.montoPresupuesto()</td>
+                    <td>@Model.montoPresupuestoConIva()</td>
+                    <td>@Model.CantidadProductos()</td>
+                </tr>
+
+                <!-- Subtabla de detalles -->
+                <tr>
+                    <td colspan="6">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detalle in Model.Detalle)
+                                {
+                                    <tr>
+                                        <td>@detalle.Cantidad</td>
+                                        <td>@detalle.Producto.Descripcion</td>
+                                        <td>@detalle.Producto.Precio</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+}
+else if (Model != null)
+{
+    <p>No se encontraron productos para este presupuesto.</p>
+}
+
+<!--- el name del input debe llamarle igual que el paramatro del metodo?
+
+
+Exactamente, sí — el name del <input> en el formulario debe llamarse igual que el nombre del parámetro del
+ método del controlador (o que la propiedad del modelo si usás un objeto).
+Esa es la base del model binding en ASP.NET MVC.
+--->

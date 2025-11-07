@@ -19,12 +19,18 @@ public class Presupuestos
 
     public double montoPresupuestoConIva()
     {
-        float monto = Detalle.Sum(d => d.Producto.Precio);
-        return (monto * 1.21);
+    
+        return montoPresupuesto() * 1.21;
     }
     public int CantidadProductos()
     {
-        return Detalle.Count();
+        int suma = 0;
+
+        foreach (var d in detalle)
+        {
+            suma += d.Cantidad;
+        }
+        return suma;
     }
 
 

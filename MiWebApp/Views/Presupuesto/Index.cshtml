@@ -1,8 +1,71 @@
+
+
 @{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">index Presupuesto</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">c</a>.</p>
-</div>
+@model List<Presupuestos>
+<section>
+    <table class="table table-bordered table-hover">
+        <caption>LISTA DE PRESUPUESTOS</caption>
+
+        <thead>
+            <tr>
+                <th>ID Presupuesto</th>
+                <th>Nombre Destinatario</th>
+                <th>Fecha Creación</th>
+                <th>Monto sin IVA</th>
+                <th>Monto con IVA</th>
+                <th>Cantidad Total de Productos</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (Presupuestos presu in Model)
+            {
+                <tr>
+                    <td>@presu.IdPresupuesto</td>
+                    <td>@presu.NombreDestinatario</td>
+                    <td>@presu.FechaCreacion</td>
+                    <td>@presu.montoPresupuesto()</td>
+                    <td>@presu.montoPresupuestoConIva()</td>
+                    <td>@presu.CantidadProductos()</td>
+                </tr>
+
+                <!-- Subtabla de detalles -->
+                <tr>
+                    <td colspan="6">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (PresupuestoDetalle detalle in presu.Detalle)   
+                                {
+                                    <tr>
+                                        <td>@detalle.Cantidad</td>
+                                        <td>@detalle.Producto.Descripcion</td>
+                                        <td>@detalle.Producto.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+<style>
+  table caption {
+    caption-side: top;     
+    text-align: center;    
+    font-weight: bold;     
+    margin-bottom: 8px;    
+  }
+</style>
