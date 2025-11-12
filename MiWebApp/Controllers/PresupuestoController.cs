@@ -1,10 +1,13 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MiWebApp.Models;
+
 
 namespace MiWebApp.Controllers;
 
-public class PresupuestoController: Controller
+using MiWebApp.Repositorios;
+using MiWebApp.ViewModels;
+using MiWebApp.Models;
+public class PresupuestoController : Controller
 {
     private PresupuestosRepository presu;
     public PresupuestoController()
@@ -12,7 +15,7 @@ public class PresupuestoController: Controller
         presu = new PresupuestosRepository();
     }
 
- [HttpGet]
+    [HttpGet]
     public IActionResult Index()
     {
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
@@ -21,7 +24,7 @@ public class PresupuestoController: Controller
     }
 
 
-
+    /*<input type="hidden" asp-for="IdPresupuesto" />  agregar luego*/
     [HttpGet]
 
     public IActionResult Details()
@@ -32,9 +35,9 @@ public class PresupuestoController: Controller
 
     [HttpPost]
 
-    public IActionResult Details(int IdPresupuesto)
+    public IActionResult Details(Presupuestos pr)
     {
-        var aux = presu.obtenerPresupuestoPorId(IdPresupuesto);
+        var aux = presu.obtenerPresupuestoPorId(pr.IdPresupuesto);
         return View(aux);
 
     }
@@ -45,16 +48,39 @@ public class PresupuestoController: Controller
 
     public IActionResult Create()
     {
-        return View(new Presupuestos());
+        List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
+        int idDeUltimo = presupuestos.LastOrDefault().IdPresupuesto;
+
+        return View(new PresupuestoViewModel(idDeUltimo + 1));
     }
 
 
     [HttpPost]
 
-    public IActionResult Create(Presupuestos presupuesto)
+    public IActionResult Create(PresupuestoViewModel presupuestoVM)
     {
+
+        if (!(presupuestoVM.FechaCreacion <= DateTime.Now))
+        {
+            ModelState.AddModelError("FechaCreacion", "La fecha no puede ser posterior a hoy");
+
+
+        }
+
+
+        if (!ModelState.IsValid)
+        {
+            // vuelve a la vista, mostrando los errores
+            return View(presupuestoVM);
+        }
+
+
+        Presupuestos presupuesto = new Presupuestos(presupuestoVM);
+
         presu.CrearPresupuesto(presupuesto);
         return RedirectToAction("Index");
+
+
 
     }
 
@@ -65,36 +91,39 @@ public class PresupuestoController: Controller
     public IActionResult Edit()
     {
 
-        return View(new Presupuestos());
+        return View(new PresupuestoViewModel());
     }
 
 
 
     [HttpPost]
-    public IActionResult Edit(Presupuestos presupuesto)
-    {
-        presu.ActualizarPresupuesto(presupuesto.IdPresupuesto, presupuesto);
+    public IActionResult Edit(PresupuestoViewModel presupuesto)
+    {   
+
+        var presup=new Presupuestos(presupuesto);
+        presu.ActualizarPresupuesto(presup.IdPresupuesto, presup);
         return RedirectToAction("Index");
     }
 
-    
+
     [HttpGet]
     public IActionResult Delete()
     {
 
-        return View(new Presupuestos());
+        return View(new PresupuestoViewModel());
     }
 
 
 
     [HttpPost]
-    public IActionResult Delete(Presupuestos presupuesto)
+    public IActionResult Delete(PresupuestoViewModel presupuesto)
     {
-        presu.borrarPresupuesto(presupuesto.IdPresupuesto);
+        var presup=new Presupuestos(presupuesto);
+        presu.borrarPresupuesto(presup.IdPresupuesto);
         return RedirectToAction("Index");
     }
 
-      [HttpGet]
+    [HttpGet]
     public IActionResult AgregarProducto()
     {
 
@@ -110,10 +139,10 @@ public class PresupuestoController: Controller
         return RedirectToAction("Index");
     }
 
-    
 
 
-   
+
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

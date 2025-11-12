@@ -1,3 +1,6 @@
+namespace MiWebApp.Models;
+using MiWebApp.ViewModels;
+
 public class Presupuestos
 {
     private int idPresupuesto;
@@ -9,6 +12,18 @@ public class Presupuestos
     public string NombreDestinatario { get => nombreDestinatario; set => nombreDestinatario = value; }
     public DateTime FechaCreacion { get => fechaCreacion; set => fechaCreacion = value; }
     public List<PresupuestoDetalle> Detalle { get => detalle; set => detalle = value; }
+
+
+
+    public Presupuestos(PresupuestoViewModel presupuesto)
+    {
+        IdPresupuesto=presupuesto.IdPresupuesto;
+        NombreDestinatario=presupuesto.NombreDestinatario;
+        FechaCreacion=presupuesto.FechaCreacion;
+
+    }
+
+    public Presupuestos(){}
 
     //METODOS
     public float montoPresupuesto()

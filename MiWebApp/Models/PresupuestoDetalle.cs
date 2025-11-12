@@ -1,3 +1,5 @@
+namespace MiWebApp.Models;
+
 public class PresupuestoDetalle
 {
     private Productos producto;

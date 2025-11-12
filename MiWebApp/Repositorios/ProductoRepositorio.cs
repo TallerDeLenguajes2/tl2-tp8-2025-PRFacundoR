@@ -2,6 +2,8 @@
 // select last_insert_aca va algo, devuelve el ultimo id de la consulta hecha?
 using Microsoft.Data.Sqlite;
 
+using MiWebApp.Models;
+namespace MiWebApp.Repositorios;
 public class ProductoRepositorio
 {
     private string _coneccionADB = "Data Source=DB/nueva.db";
@@ -127,4 +129,6 @@ public int ActualizarProducto(int idProduc, Productos produc)
 
         }
     }
+
+   
 }

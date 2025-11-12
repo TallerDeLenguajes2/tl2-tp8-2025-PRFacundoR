@@ -1,10 +1,15 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
-using MiWebApp.Models;
 
 
 namespace MiWebApp.Controllers;
+
+
+using MiWebApp.Models;
+using MiWebApp.Repositorios;
+using MiWebApp.ViewModels;
+
 
 public class ProductosController : Controller
 {

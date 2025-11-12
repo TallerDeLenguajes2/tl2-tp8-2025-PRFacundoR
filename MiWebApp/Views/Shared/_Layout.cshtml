@@ -27,37 +27,16 @@
                         </li>
 
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Productos
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index">Ver lista</a></li>
-                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Create">Insertar</a></li>
-                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Edit">Actualizar</a></li>
-                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Delete">Borrar</a></li>
-                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Details">Detalle</a></li>
-                            </ul>
-                        </li>
-                      <!-- asp-controller="Productos", deberia ir a estos controladores y ejecutar el metodo con asp-action="Index"-->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Productos" asp-action="Index">Productos</a>
+                    </li>
                     
-                     <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="presupuestoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Presupuesto
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="presupuestoDropdown">
-                                <li><a class="dropdown-item" asp-controller="Presupuesto" asp-action="Index">Ver lista</a></li>
-                                <li><a class="dropdown-item" asp-controller="Presupuesto" asp-action="Create">Insertar</a></li>
-                                <li><a class="dropdown-item" asp-controller="Presupuesto" asp-action="Edit">Actualizar</a></li>
-                                <li><a class="dropdown-item" asp-controller="Presupuesto" asp-action="Delete">Borrar</a></li>
-                                <li><a class="dropdown-item" asp-controller="Presupuesto" asp-action="Details">Detalle</a></li>
-                                <li><a class="dropdown-item" asp-controller="Presupuesto" asp-action="AgregarProducto">Agregar Producto</a></li>
-
-                            </ul>
-                        </li>
-                      <!---<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Presupuesto" asp-action="Index">Presupuesto</a>
-                        </li>--->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Presupuesto" asp-action="Index">Presupuesto</a>
+                    </li>
+                                    <!---<li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Presupuesto" asp-action="Index">Presupuesto</a>
+                                        </li>--->
                     </ul>
                 </div>
             </div>

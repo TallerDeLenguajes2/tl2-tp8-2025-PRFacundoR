@@ -14,9 +14,10 @@ ViewData["Title"] = "Home Page";
                 <th>ID Presupuesto</th>
                 <th>Nombre Destinatario</th>
                 <th>Fecha Creación</th>
-                <th>Monto sin IVA</th>
-                <th>Monto con IVA</th>
-                <th>Cantidad Total de Productos</th>
+                <th>Crear</th>
+                <th>Editar</th>
+                <th>Borrar</th>
+
             </tr>
         </thead>
 
@@ -27,35 +28,11 @@ ViewData["Title"] = "Home Page";
                     <td>@presu.IdPresupuesto</td>
                     <td>@presu.NombreDestinatario</td>
                     <td>@presu.FechaCreacion</td>
-                    <td>@presu.montoPresupuesto()</td>
-                    <td>@presu.montoPresupuestoConIva()</td>
-                    <td>@presu.CantidadProductos()</td>
+                   <!--- <td><a asp-controller="Producto" asp-action="Details" asp-route-id="@presu.Id"> </td>
+                    <td> </td>
+                    <td> </td>--->
                 </tr>
 
-                <!-- Subtabla de detalles -->
-                <tr>
-                    <td colspan="6">
-                        <table class="table table-sm table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Cantidad</th>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (PresupuestoDetalle detalle in presu.Detalle)   
-                                {
-                                    <tr>
-                                        <td>@detalle.Cantidad</td>
-                                        <td>@detalle.Producto.Descripcion</td>
-                                        <td>@detalle.Producto.</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
             }
         </tbody>
     </table>
