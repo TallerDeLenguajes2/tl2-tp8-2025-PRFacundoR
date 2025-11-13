@@ -95,16 +95,16 @@ public int ActualizarProducto(int idProduc, Productos produc)
         }
     }
 
-    public Productos ObtenerProductoPorNombre(string nom)
+    public Productos ObtenerProductoPorNombre(int id)
     {
         using (var conexion = new SqliteConnection(_coneccionADB))
         {
             conexion.Open();
-            string sql = "SELECT * FROM productos WHERE descripcion LIKE '%' || @nom || '%'";
+            string sql = "SELECT * FROM productos WHERE idProducto=@id";
             using (var comando = new SqliteCommand(sql, conexion))
             {
                 // Parámetro para evitar inyección SQL
-                comando.Parameters.AddWithValue("@nom", nom);
+                comando.Parameters.AddWithValue("@id", id);
                 using (var lector = comando.ExecuteReader())
                 {
                     if (lector.Read()) // si encontró el producto

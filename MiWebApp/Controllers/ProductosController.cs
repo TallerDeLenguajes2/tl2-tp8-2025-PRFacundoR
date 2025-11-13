@@ -32,7 +32,7 @@ public class ProductosController : Controller
 
 
 
-    [HttpGet]
+    [HttpGet] 
 
     public IActionResult Details()
     {
@@ -42,9 +42,9 @@ public class ProductosController : Controller
 
     [HttpPost]
 
-    public IActionResult Details(string descripcion)
+    public IActionResult Details(int id)
     {
-        var aux = producto.ObtenerProductoPorNombre(descripcion);
+        var aux = producto.ObtenerProductoPorNombre(id);
         return View(aux);
 
     }
@@ -55,15 +55,27 @@ public class ProductosController : Controller
 
     public IActionResult Create()
     {
-        return View(new Productos());
+        List<Productos> productos = producto.GetAll();
+        int idDeUltimo = productos.LastOrDefault().IdProducto;
+        return View(new ProductoViewModel(idDeUltimo + 1));
     }
 
 
     [HttpPost]
 
-    public IActionResult Create(Productos produc)
+    public IActionResult Create(ProductoViewModel producVM)
     {
-        producto.InsertarProducto(produc);
+
+
+
+        if (!ModelState.IsValid)
+        {
+            // vuelve a la vista, mostrando los errores
+            return View(producVM);
+        }
+
+        var produ=new Productos(producVM);
+        producto.InsertarProducto(produ);
         return RedirectToAction("Index");
 
     }
@@ -71,19 +83,36 @@ public class ProductosController : Controller
 
 
 
-    [HttpGet]
-    public IActionResult Edit()
+/*    [HttpGet]
+    public IActionResult Edit(int id)
     {
-
-        return View(new Productos());
+        
+        return View(new ProductoViewModel(id));
     }
+    
+sin data en el form
+*/
+[HttpGet]
+public IActionResult Edit(int id)
+{   List<Productos> productos = producto.GetAll();
+    var productoEncontrado = productos.FirstOrDefault(p=>p.IdProducto==id);
 
+    if (productoEncontrado == null)
+        return NotFound();
+
+    var vm = new ProductoViewModel(productoEncontrado);
+    return View(vm);
+}
 
 
     [HttpPost]
-    public IActionResult Edit(Productos produc)
+    public IActionResult Edit(ProductoViewModel producVM)
     {
-        producto.ActualizarProducto(produc.IdProducto, produc);
+
+ 
+        var produ=new Productos(producVM);
+
+        producto.ActualizarProducto(produ.IdProducto, produ);
         return RedirectToAction("Index");
     }
 
@@ -92,15 +121,15 @@ public class ProductosController : Controller
     public IActionResult Delete()
     {
 
-        return View(new Productos());
+        return View(new ProductoViewModel());
     }
 
 
 
     [HttpPost]
-    public IActionResult Delete(Productos produc)
-    {
-        producto.borrarProducto(produc.IdProducto);
+    public IActionResult Delete(ProductoViewModel producVM)
+    { var produ=new Productos(producVM);
+        producto.borrarProducto(produ.IdProducto);
         return RedirectToAction("Index");
     }
 

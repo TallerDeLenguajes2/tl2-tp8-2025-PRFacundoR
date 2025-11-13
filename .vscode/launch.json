@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/MiWebApp/bin/Debug/net8.0/MiWebApp.dll",
+            "program": "${workspaceFolder}/MiWebApp/bin/Debug/net9.0/MiWebApp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/MiWebApp",
             "stopAtEntry": false,

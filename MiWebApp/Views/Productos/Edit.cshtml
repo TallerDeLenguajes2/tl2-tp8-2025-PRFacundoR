@@ -1,13 +1,12 @@
-@model MiWebApp.Models.Productos
+@model MiWebApp.ViewModels.ProductoViewModel
 <section>
     <h3>EDITAR PRODUCTOS</h3>
 </section>
 <section>
-<form asp-controller="Productos" asp-action="Edit" >
+<form asp-controller="Productos" asp-action="Edit" method="post">
     
     <section>
-        <label asp-for="IdProducto">Id del producto</label>
-        <input asp-for="IdProducto" class="form-control" />
+        <input asp-for="IdProducto" type="hidden"class="form-control" />
     </section>
 
     <section>
