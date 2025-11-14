@@ -36,8 +36,8 @@
                             class="btn btn-primary">Borrar</a> </td>
                     <td>@if(presu.Detalle==null || presu.Detalle.Count == 0){
 
-                        <form asp-controller="Presupuesto" asp-action="AgregarProducto" method="Post">
-                            <input type="hidden" name="IdPresupuesto"
+                        <form asp-controller="Presupuesto" asp-action="AgregarProducto" method="get">
+                            <input type="hidden" name="id"
                                 value="@presu.IdPresupuesto" /><!--name debe llamarse igual que el parametro que recibe el metodo,ASP.NET Core NO es case-sensitive en los nombres de los campos-->
                             <button type="submit" class="btn btn-primary">Agregar Producto</button>
                         </form>
