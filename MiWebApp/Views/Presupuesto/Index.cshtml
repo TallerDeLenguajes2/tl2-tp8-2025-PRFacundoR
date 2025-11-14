@@ -36,16 +36,16 @@
                             class="btn btn-primary">Borrar</a> </td>
                     <td>@if(presu.Detalle==null || presu.Detalle.Count == 0){
 
-                        <form asp-controller="Presupuesto" asp-action="AgregarProducto" method="get">
-                            <input type="hidden" name="id"
+                        <form asp-controller="Presupuesto" asp-action="AgregarProducto" method="Post">
+                            <input type="hidden" name="IdPresupuesto"
                                 value="@presu.IdPresupuesto" /><!--name debe llamarse igual que el parametro que recibe el metodo,ASP.NET Core NO es case-sensitive en los nombres de los campos-->
                             <button type="submit" class="btn btn-primary">Agregar Producto</button>
                         </form>
 
                     }else
                     {
-                        <form asp-controller="Presupuesto" asp-action="Details" method="get">
-                            <input type="hidden" name="id" value="@presu.IdPresupuesto" />
+                        <form asp-controller="Presupuesto" asp-action="Details" method="post">
+                            <input type="hidden" name="IdPresupuesto" value="@presu.IdPresupuesto" />
                             <button type="submit" class="btn btn-primary">Detalle</button>
                         </form>
 
@@ -67,3 +67,18 @@
         margin-bottom: 8px;
     }
 </style>
+
+
+<!--forma 1
+ <form asp-controller="Presupuesto" asp-action="Details" method="POST">
+                            <input type="hidden" name="IdPresupuesto" value="//presu.IdPresupuesto" />
+                            <button type="submit" class="btn btn-primary">Detalle</button>
+                        </form>
+
+forma 2
+
+<form asp-controller="Presupuesto" asp-action="Details" method="get">
+                            <input type="hidden" name="id" value="//presu.IdPresupuesto" />
+                            <button type="submit" class="btn btn-primary">Detalle</button>
+                        </form>
+-->
