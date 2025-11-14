@@ -4,7 +4,7 @@ using Microsoft.Data.Sqlite;
 
 usinMiWebApp.interfaces;ls;
 namespace MiWebApp.Repositorios;
-public class ProductoRepositorio
+public class ProductoRepositorio : IProductoRepository
 {
     private string _coneccionADB = "Data Source=DB/nueva.db";
 
