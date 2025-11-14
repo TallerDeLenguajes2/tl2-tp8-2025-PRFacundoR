@@ -45,7 +45,7 @@ public class PresupuestoController : Controller
     }asi si funciona*/
 
 
-[HttpGet]
+/*[HttpGet] lo puedo borrar?
     public IActionResult Details(int id)
     {
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
@@ -54,7 +54,7 @@ public class PresupuestoController : Controller
 
 
         return View(new PresupuestoViewModel(aux));
-    }
+    }*/
 
     [HttpPost]
 
