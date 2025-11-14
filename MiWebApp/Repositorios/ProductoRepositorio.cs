@@ -2,7 +2,7 @@
 // select last_insert_aca va algo, devuelve el ultimo id de la consulta hecha?
 using Microsoft.Data.Sqlite;
 
-using MiWebApp.Models;
+usinMiWebApp.interfaces;ls;
 namespace MiWebApp.Repositorios;
 public class ProductoRepositorio
 {

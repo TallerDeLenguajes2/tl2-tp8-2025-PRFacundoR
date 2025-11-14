@@ -1,8 +1,8 @@
 using Microsoft.Data.Sqlite;
-
+using MiWebApp.interfaces;
 using MiWebApp.Models;
 namespace MiWebApp.Repositorios;
-public class PresupuestosRepository
+public class PresupuestosRepository:IPresupuestoRepository
 {
     private string _coneccionADB = "Data Source=DB/nueva.db";
     //Listar todos los Presupuestos registrados. (devuelve un List de Presupuestos)
