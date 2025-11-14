@@ -35,13 +35,26 @@ public class PresupuestoController : Controller
 
 
     /*<input type="hidden" asp-for="IdPresupuesto" />  agregar luego*/
-    [HttpGet]
+    
 
+    /*public IActionResult Details(int id)
+    {
+
+
+        return View(new PresupuestoViewModel(id));
+    }asi si funciona*/
+
+
+[HttpGet]
     public IActionResult Details(int id)
     {
-        return View(new PresupuestoViewModel(id));
-    }
+        List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
+        var aux=presupuestos.FirstOrDefault(p=>p.IdPresupuesto==id);
 
+
+
+        return View(new PresupuestoViewModel(aux));
+    }
 
     [HttpPost]
 
