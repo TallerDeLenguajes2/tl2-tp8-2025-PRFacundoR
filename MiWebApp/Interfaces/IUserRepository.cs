@@ -1,3 +1,5 @@
+using MiWebApp.Models;
+
 namespace MiWebApp.interfaces;
 
 public interface IUserRepository

@@ -24,9 +24,10 @@ class UsuarioRepository : IUserRepository
         // Se usan parámetros para prevenir inyección SQ
 
         comando.Parameters.AddWithValue("@Usuario", usuario);
-        comando.Parameters.AddWithValue("@Contrasena",
-       contrasena);
+        comando.Parameters.AddWithValue("@Contrasena",contrasena);
+
         using var reader = comando.ExecuteReader();
+        
         if (reader.Read())
         {
             // Si el lector encuentra una fila, el usuario existe y las credenciales son correctas
