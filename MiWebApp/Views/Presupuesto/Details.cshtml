@@ -1,19 +1,19 @@
 
-@model MiWebApp.Models.Presupuestos
+@model MiWebApp.ViewModels.PresupuestoViewModel
 
 <section>
     <h3>ENCONTRAR PRESUPUESTOS</h3>
 </section>
 
-<section>
+<!---<section>
     <form asp-controller="Presupuesto" asp-action="Details" method="post">
         <section>
-            <label asp-for="IdPresupuesto">Id del Presupuesto</label>
-            <input asp-for="IdPresupuesto" type="number" min="1" class="form-control" />
+            
+            <input asp-for="IdPresupuesto" type="number" type="hidden" min="1" class="form-control" />
         </section>
         <button type="submit" class="btn btn-primary mt-2">Enviar</button>
     </form>
-</section>
+</section>--->
 
 @if (Model != null && Model.Detalle != null && Model.Detalle.Any())
 {
@@ -33,10 +33,12 @@
             </thead>
 
             <tbody>
+
+            <a asp-controller="Presupuesto" asp-action="AgregarProducto" asp-route-id="@Model.IdPresupuesto" class="btn btn-primary">Agregar Producto</a>
                 <tr>
                     <td>@Model.IdPresupuesto</td>
                     <td>@Model.NombreDestinatario</td>
-                    <td>@Model.FechaCreacion.ToShortDateString()</td>
+                    <td>@Model.FechaCreacion.ToString("dd/MM/yyyy")</td>
                     <td>@Model.montoPresupuesto()</td>
                     <td>@Model.montoPresupuestoConIva()</td>
                     <td>@Model.CantidadProductos()</td>
@@ -51,6 +53,7 @@
                                     <th>Cantidad</th>
                                     <th>Producto</th>
                                     <th>Precio</th>
+                                    <th>Modificar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,6 +63,7 @@
                                         <td>@detalle.Cantidad</td>
                                         <td>@detalle.Producto.Descripcion</td>
                                         <td>@detalle.Producto.Precio</td>
+                                        <td><a asp-controller="Productos" asp-action="EditCantidad" class="btn btn-primary">Modificar Cantidad</a> </td>
                                     </tr>
                                 }
                             </tbody>

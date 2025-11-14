@@ -4,13 +4,12 @@
     <h3>ENCONTRAR PRODUCTOS</h3>
 </section>
 <section>
-<form asp-controller="Productos" asp-action="Details" >
+<form asp-controller="Productos" asp-action="Details" method="post" >
     
     <section>
-        <label asp-for="Descripcion">Descripcion del producto</label>
-        <input asp-for="Descripcion" class="form-control" />
+        <input asp-for="IdProducto" type="hidden" class="form-control" />
     </section>
-     <button type="submit">Enviar</button>
+     <button type="submit">Ver Detalle</button>
 </form>
 
 
@@ -20,7 +19,6 @@
 {
     <section>
         <h4>Resultado:</h4>
-        <p>ID: @Model.IdProducto</p>
         <p>Descripción: @Model.Descripcion</p>
         <p>Precio: @Model.Precio</p>
     </section>

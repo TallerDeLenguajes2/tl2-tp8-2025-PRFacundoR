@@ -8,7 +8,7 @@ public class PresupuestosRepository
     //Listar todos los Presupuestos registrados. (devuelve un List de Presupuestos)
     public List<Presupuestos> GetAllPresupuestos()
     {
-        string sql_query = "SELECT * FROM presupuestos INNER JOIN presupuestoDetalle using(idPresupuesto) JOIN productos ON id_prod=idProducto";
+        string sql_query = "SELECT * FROM presupuestos LEFT JOIN presupuestoDetalle using(idPresupuesto) LEFT JOIN productos ON id_prod=idProducto";
         List<Presupuestos> presupuestos = new List<Presupuestos>();
 
         using var conecttion = new SqliteConnection(_coneccionADB);
@@ -37,20 +37,23 @@ public class PresupuestosRepository
                     presupuestos.Add(presupuesto);
                 }
 
+                if (reader["id_prod"] != DBNull.Value)
+            {
                 var producto = new Productos
                 {
                     IdProducto = Convert.ToInt32(reader["id_prod"]),
-                    Descripcion = reader["descripcion"].ToString(),
-                    Precio = Convert.ToInt32(reader["precio"])
+                    Descripcion = reader["descripcion"]?.ToString(),
+                    Precio = reader["precio"] != DBNull.Value ? Convert.ToInt32(reader["precio"]) : 0
                 };
 
                 var detalle = new PresupuestoDetalle
                 {
                     Producto = producto,
-                    Cantidad = Convert.ToInt32(reader["cantidad"])
+                    Cantidad = reader["cantidad"] != DBNull.Value ? Convert.ToInt32(reader["cantidad"]) : 0
                 };
 
                 presupuesto.Detalle.Add(detalle);
+            }
             }
 
 

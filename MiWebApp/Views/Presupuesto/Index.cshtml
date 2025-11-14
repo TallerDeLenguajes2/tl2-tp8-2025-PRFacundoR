@@ -1,48 +1,68 @@
+@using MiWebApp.ViewModels
 
 
 @{
-ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Presupuestos";
 }
 
-@model List<Presupuestos>
+@model List<PresupuestoViewModel>
 <section>
     <table class="table table-bordered table-hover">
         <caption>LISTA DE PRESUPUESTOS</caption>
 
         <thead>
             <tr>
-                <th>ID Presupuesto</th>
+
                 <th>Nombre Destinatario</th>
                 <th>Fecha Creación</th>
-                <th>Crear</th>
+
                 <th>Editar</th>
                 <th>Borrar</th>
-
+                <th>Detalle</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach (Presupuestos presu in Model)
+            <a asp-controller="Presupuesto" asp-action="Create" class="btn btn-primary">Crear Presupuesto</a>
+
+            @foreach (PresupuestoViewModel presu in Model)
             {
                 <tr>
-                    <td>@presu.IdPresupuesto</td>
                     <td>@presu.NombreDestinatario</td>
-                    <td>@presu.FechaCreacion</td>
-                   <!--- <td><a asp-controller="Producto" asp-action="Details" asp-route-id="@presu"> </td>
-                    <td> </td>
-                    <td> </td>--->
-                </tr>
+                    <td>@presu.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td><a asp-controller="Presupuesto" asp-action="Edit" asp-route-id="@presu.IdPresupuesto"
+                            class="btn btn-primary">Editar</a> </td>
+                    <td><a asp-controller="Presupuesto" asp-action="Delete" asp-route-id="@presu.IdPresupuesto"
+                            class="btn btn-primary">Borrar</a> </td>
+                    <td>@if(presu.Detalle==null || presu.Detalle.Count == 0){
 
-            }
+                        <form asp-controller="Presupuesto" asp-action="AgregarProducto" method="get">
+    <input type="hidden" name="IdPresupuesto" value="@presu.IdPresupuesto" />
+    <button type="submit" class="btn btn-primary">Agregar Producto</button>
+</form>
+
+                    }else
+                    {
+                        <form asp-controller="Presupuesto" asp-action="Details" method="post">
+    <input type="hidden" name="IdPresupuesto" value="@presu.IdPresupuesto" />
+    <button type="submit" class="btn btn-primary">Detalle</button>
+</form>
+
+
+                    }
+                </td>
+            </tr>
+
+                        }
         </tbody>
     </table>
 </section>
 
 <style>
-  table caption {
-    caption-side: top;     
-    text-align: center;    
-    font-weight: bold;     
-    margin-bottom: 8px;    
-  }
+    table caption {
+        caption-side: top;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
 </style>

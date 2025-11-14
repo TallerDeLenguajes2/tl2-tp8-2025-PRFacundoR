@@ -1,17 +1,23 @@
-@model MiWebApp.Models.Presupuestos
+@model MiWebApp.ViewModels.PresupuestoViewModel
 <section>
     <h3>BORRAR PRESUPUESTOS</h3>
 </section>
 <section>
+
+
+<p>Seguro que lo queres borrar?</p>
+
+
 <form asp-controller="Presupuesto" asp-action="Delete" >
     
     <section>
-        <label asp-for="IdPresupuesto">Id del Presupuesto</label>
-        <input asp-for="IdPresupuesto" class="form-control" />
+        
+        <input asp-for="IdPresupuesto" type="hidden" class="form-control" />
     </section>
 
    
-     <button type="submit">Enviar</button>
+     <button type="submit" class="btn btn-secondary" >Si</button>
+     <a asp-controller="Presupuesto" asp-action="Index" class="btn btn-secondary">No</a>
 </form>
 
 

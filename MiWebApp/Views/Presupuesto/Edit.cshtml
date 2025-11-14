@@ -1,19 +1,20 @@
-@model MiWebApp.Models.Presupuestos
+@model MiWebApp.ViewModels.PresupuestoViewModel
 <section>
     <h3>EDITAR PRESUPUESTOS</h3>
 </section>
 <section>
 <form asp-controller="Presupuesto" asp-action="Edit" >
+
+    <section >
+            <input asp-for="IdPresupuesto" type="hidden"class="form-control" />
+
+    </section>
     
     <section>
         <label asp-for="NombreDestinatario">Nombre del destinatario</label>
         <input asp-for="NombreDestinatario" class="form-control" />
     </section>
 
-    <section>
-        <label asp-for="IdPresupuesto">Id del Presupuesto</label>
-        <input asp-for="IdPresupuesto" min=1 class="form-control" />
-    </section>
 
     <section>
         <label asp-for="FechaCreacion">Fecha de Creacion</label>

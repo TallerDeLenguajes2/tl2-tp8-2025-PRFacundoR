@@ -1,17 +1,20 @@
-@model MiWebApp.Models.Productos
+@model MiWebApp.ViewModels.ProductoViewModel
 <section>
     <h3>BORRAR PRODUCTOS</h3>
 </section>
 <section>
+
+<p>Seguro que lo queres borrar?</p>
 <form asp-controller="Productos" asp-action="Delete" >
     
     <section>
-        <label asp-for="IdProducto">Id del producto</label>
-        <input asp-for="IdProducto" class="form-control" />
+        <input asp-for="IdProducto" type="hidden"class="form-control" />
     </section>
 
    
-     <button type="submit">Enviar</button>
+     <button type="submit" class="btn btn-secondary" >Si</button>
+     <a asp-controller="Productos" asp-action="Index" class="btn btn-secondary">No</a>
+
 </form>
 
 

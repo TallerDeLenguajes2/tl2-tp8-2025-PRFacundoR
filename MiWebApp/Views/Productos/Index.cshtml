@@ -1,33 +1,37 @@
+@using MiWebApp.ViewModels
 
 
 @{
 ViewData["Title"] = "Productos";
 }
 
-@model List<Productos>
+@model List<ProductoViewModel>
 <section>
 
     <table class="table table-bordered table-hover">
     <thead>
     <caption> LISTA DE PRODUCTOS</caption>
+               <tr> 
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Editar</th>
+            <th>Borrar</th>
+            <th>Detalle</th>
+            </tr>
     </thead>
 
         <tbody>
-    
-            <tr> 
-            <th>Descripcion</th>
-            <th>Precio</th>
-            <th>Crear</th>
-            <th>Editar</th>
-            <th>Borrar</th>
-            </tr>
+     <a asp-controller="Productos" asp-action="Create" class="btn btn-primary">Crear Producto</a> 
 
-            @foreach (Productos producto in Model)
+          
+          
+            @foreach (ProductoViewModel producto in Model)
             {   <tr>
                     <td>@producto.Descripcion</td>
                     <td>@producto.Precio </td>
-                    <td> </td>
                     <td><a asp-controller="Productos" asp-action="Edit" asp-route-id="@producto.IdProducto" class="btn btn-primary">Editar</a> </td>
+                    <td><a asp-controller="Productos" asp-action="Delete" asp-route-id="@producto.IdProducto" class="btn btn-primary">Borrar</a> </td>
+                    <td><a asp-controller="Productos" asp-action="Details" asp-route-id="@producto.IdProducto" class="btn btn-primary">Detalle</a> </td>
                 </tr>
             }
         </tbody>

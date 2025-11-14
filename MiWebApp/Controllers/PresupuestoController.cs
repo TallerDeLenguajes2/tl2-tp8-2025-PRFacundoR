@@ -7,19 +7,29 @@ namespace MiWebApp.Controllers;
 using MiWebApp.Repositorios;
 using MiWebApp.ViewModels;
 using MiWebApp.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 public class PresupuestoController : Controller
 {
     private PresupuestosRepository presu;
+    private ProductoRepositorio producto;
     public PresupuestoController()
     {
         presu = new PresupuestosRepository();
+        producto = new ProductoRepositorio();
     }
+
+
+
+
+
 
     [HttpGet]
     public IActionResult Index()
     {
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
-        return View(presupuestos);
+        List<PresupuestoViewModel> presupuestosVM = presupuestos.Select(p => new PresupuestoViewModel(p)).ToList();
+        return View(presupuestosVM);
 
     }
 
@@ -27,18 +37,19 @@ public class PresupuestoController : Controller
     /*<input type="hidden" asp-for="IdPresupuesto" />  agregar luego*/
     [HttpGet]
 
-    public IActionResult Details()
+    public IActionResult Details(int id)
     {
-        return View(new Presupuestos());
+        return View(new PresupuestoViewModel(id));
     }
 
 
     [HttpPost]
 
-    public IActionResult Details(Presupuestos pr)
+    public IActionResult Details(PresupuestoViewModel pr)
     {
         var aux = presu.obtenerPresupuestoPorId(pr.IdPresupuesto);
-        return View(aux);
+        var aux1 = new PresupuestoViewModel(aux);
+        return View(aux1);
 
     }
 
@@ -50,8 +61,9 @@ public class PresupuestoController : Controller
     {
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
         int idDeUltimo = presupuestos.LastOrDefault().IdPresupuesto;
-
-        return View(new PresupuestoViewModel(idDeUltimo + 1));
+        var pvm = new PresupuestoViewModel(idDeUltimo + 1);
+        pvm.FechaCreacion = DateTime.Now;
+        return View(pvm);
     }
 
 
@@ -88,29 +100,36 @@ public class PresupuestoController : Controller
 
 
     [HttpGet]
-    public IActionResult Edit()
+    public IActionResult Edit(int id)
     {
+        List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
+        var presuEncontrado = presupuestos.FirstOrDefault(p => p.IdPresupuesto == id);
 
-        return View(new PresupuestoViewModel());
+        if (presuEncontrado == null)
+            return NotFound();
+
+
+        var vm = new PresupuestoViewModel(presuEncontrado);
+        return View(vm);
     }
 
 
 
     [HttpPost]
     public IActionResult Edit(PresupuestoViewModel presupuesto)
-    {   
+    {
 
-        var presup=new Presupuestos(presupuesto);
+        var presup = new Presupuestos(presupuesto);
         presu.ActualizarPresupuesto(presup.IdPresupuesto, presup);
         return RedirectToAction("Index");
     }
 
 
     [HttpGet]
-    public IActionResult Delete()
+    public IActionResult Delete(int id)
     {
 
-        return View(new PresupuestoViewModel());
+        return View(new PresupuestoViewModel(id));
     }
 
 
@@ -118,25 +137,40 @@ public class PresupuestoController : Controller
     [HttpPost]
     public IActionResult Delete(PresupuestoViewModel presupuesto)
     {
-        var presup=new Presupuestos(presupuesto);
-        presu.borrarPresupuesto(presup.IdPresupuesto);
+
+        presu.borrarPresupuesto(presupuesto.IdPresupuesto);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
-    public IActionResult AgregarProducto()
+    public IActionResult AgregarProducto(int id)
     {
+        List<Productos> productos = producto.GetAll();
 
-        return View(new PresupuestoDetalle());
+        AgregarProductoViewModel model = new AgregarProductoViewModel()
+        {
+            IdPresupuesto = id, // Pasamos el ID del presupuesto actual
+                                // 3. Crear el SelectList
+            ListaProductos = new SelectList(productos, "IdProducto", "Descripcion")
+        };
+
+        return View(model);
     }
 
 
 
     [HttpPost]
-    public IActionResult AgregarProducto(Presupuestos presupuesto, PresupuestoDetalle detalle)
+    public IActionResult AgregarProducto(AgregarProductoViewModel model)
     {
-        presu.AgregarProductoAPresupuesto(presupuesto.IdPresupuesto, detalle.Producto.IdProducto, detalle.Cantidad);
-        return RedirectToAction("Index");
+        if (!ModelState.IsValid)
+        {
+            List<Productos> productos = producto.GetAll();
+            model.ListaProductos=new SelectList(productos, "IdProducto", "Descripcion");
+            return View(model);
+            
+        }
+        presu.AgregarProductoAPresupuesto(model.IdPresupuesto, model.IdProducto, model.Cantidad);
+        return RedirectToAction("Details",new { id = model.IdPresupuesto });
     }
 
 

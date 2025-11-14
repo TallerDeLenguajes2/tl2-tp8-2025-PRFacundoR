@@ -100,7 +100,7 @@ public int ActualizarProducto(int idProduc, Productos produc)
         using (var conexion = new SqliteConnection(_coneccionADB))
         {
             conexion.Open();
-            string sql = "SELECT * FROM productos WHERE idProducto=@id";
+            string sql = "SELECT * FROM productos WHERE id_prod=@id";
             using (var comando = new SqliteCommand(sql, conexion))
             {
                 // Parámetro para evitar inyección SQL
