@@ -1,5 +1,5 @@
 using Microsoft.Data.Sqlite;
-using MiWebApp.interfaces;
+using MiWebApp.Interfaces;
 using MiWebApp.Models;
 namespace MiWebApp.Repositorios;
 public class PresupuestosRepository:IPresupuestoRepository

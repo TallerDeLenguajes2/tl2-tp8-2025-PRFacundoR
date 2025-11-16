@@ -1,4 +1,4 @@
-namespace MiWebApp.interfaces;
+namespace MiWebApp.Interfaces;
 
 using MiWebApp.Models;
 

@@ -1,6 +1,6 @@
 using MiWebApp.Models;
 
-namespace MiWebApp.interfaces;
+namespace MiWebApp.Interfaces;
 
 public interface IUserRepository
 {

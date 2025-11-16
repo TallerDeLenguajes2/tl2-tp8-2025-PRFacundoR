@@ -1,7 +1,7 @@
 namespace MiWebApp.Interfaces;
 
 
-public interface IAuthenticationService
+public interface IAutentificarService
 {
     bool Login(string username, string password);
     void Logout();

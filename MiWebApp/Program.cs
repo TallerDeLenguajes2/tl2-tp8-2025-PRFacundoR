@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using MiWebApp.interfaces;
+
 using MiWebApp.Interfaces;
 using MiWebApp.Repositorios;
 
@@ -15,7 +15,7 @@ builder.Services.AddSession(options=>{
 //que hace esto?
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserRepository, UsuarioRepository>();
-//builder.Services.AddScoped<IAuthenticationService,AuthenticationService >();
+builder.Services.AddScoped<IAutentificarService,AuntentificarService >();
 builder.Services.AddScoped<IProductoRepository, ProductoRepositorio>();
 builder.Services.AddScoped<IPresupuestoRepository,PresupuestosRepository>();
 

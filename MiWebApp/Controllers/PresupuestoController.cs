@@ -8,16 +8,16 @@ using MiWebApp.Repositorios;
 using MiWebApp.ViewModels;
 using MiWebApp.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MiWebApp.interfaces;
+using MiWebApp.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 
 public class PresupuestoController : Controller
 {
     private IPresupuestoRepository presu;
 
-    private IAuthenticationService autorizacion;
+    private IAutentificarService autorizacion;
     private ProductoRepositorio producto;
-    public PresupuestoController(IPresupuestoRepository prR ,IAuthenticationService auto)
+    public PresupuestoController(IPresupuestoRepository prR ,AuntentificarService auto)
     {//porque ya no se usa new presupuesto repo?
         presu = prR;
         producto = new ProductoRepositorio();

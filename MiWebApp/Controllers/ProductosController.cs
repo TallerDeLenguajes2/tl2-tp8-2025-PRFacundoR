@@ -5,7 +5,7 @@ using Microsoft.VisualBasic;
 
 namespace MiWebApp.Controllers;
 
-using MiWebApp.interfaces;
+
 using MiWebApp.Interfaces;
 using MiWebApp.Models;
 using MiWebApp.Repositorios;
@@ -18,8 +18,8 @@ public class ProductosController : Controller
 
     private IProductoRepository producto;
 
-    private IAuthenticationService autorizacon;
-    public ProductosController(IProductoRepository prod,IAuthenticationService auto )
+    private IAutentificarService autorizacon;
+    public ProductosController(IProductoRepository prod,IAutentificarService auto )
     {
        // producto = new ProductoRepositorio();
 
