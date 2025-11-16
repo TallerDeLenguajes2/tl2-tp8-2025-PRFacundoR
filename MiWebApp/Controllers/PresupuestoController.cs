@@ -40,7 +40,7 @@ public class PresupuestoController : Controller
 
 
     /*<input type="hidden" asp-for="IdPresupuesto" />  agregar luego*/
-    
+
 
     /*public IActionResult Details(int id)
     {
@@ -50,16 +50,16 @@ public class PresupuestoController : Controller
     }asi si funciona*/
 
 
-/*[HttpGet] lo puedo borrar?
+    [HttpGet]
     public IActionResult Details(int id)
     {
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
-        var aux=presupuestos.FirstOrDefault(p=>p.IdPresupuesto==id);
+        var aux = presupuestos.FirstOrDefault(p => p.IdPresupuesto == id);
 
 
 
         return View(new PresupuestoViewModel(aux));
-    }*/
+    }
 
     [HttpPost]
 
@@ -137,6 +137,18 @@ public class PresupuestoController : Controller
     public IActionResult Edit(PresupuestoViewModel presupuesto)
     {
 
+        if (!(presupuesto.FechaCreacion <= DateTime.Now))
+        {
+            ModelState.AddModelError("FechaCreacion", "La fecha no puede ser posterior a hoy");
+
+
+        }
+        if (!ModelState.IsValid)
+        {
+            return View(presupuesto);
+        }
+
+         
         var presup = new Presupuestos(presupuesto);
         presu.ActualizarPresupuesto(presup.IdPresupuesto, presup);
         return RedirectToAction("Index");
@@ -155,7 +167,7 @@ public class PresupuestoController : Controller
     [HttpPost]
     public IActionResult Delete(PresupuestoViewModel presupuesto)
     {
-
+        
         presu.borrarPresupuesto(presupuesto.IdPresupuesto);
         return RedirectToAction("Index");
     }
@@ -183,16 +195,53 @@ public class PresupuestoController : Controller
         if (!ModelState.IsValid)
         {
             List<Productos> productos = producto.GetAll();
-            model.ListaProductos=new SelectList(productos, "IdProducto", "Descripcion");
+            model.ListaProductos = new SelectList(productos, "IdProducto", "Descripcion");
             return View(model);
-            
+
         }
-        presu.AgregarProductoAPresupuesto(model.IdPresupuesto, model.IdProducto, model.Cantidad);
-        return RedirectToAction("Details",new { id = model.IdPresupuesto });
+
+        if (presu.GetAllPresupuestos().Exists(p=>p.IdPresupuesto==model.IdPresupuesto && p.Detalle.Exists(p1=>p1.Producto.IdProducto==model.IdProducto)))
+        {
+           var auxPresu= presu.GetAllPresupuestos().FirstOrDefault(p=>p.IdPresupuesto==model.IdPresupuesto);
+        
+           var cant= auxPresu.cantidadDeUnProducto(model.IdProducto)+ model.Cantidad;
+            presu.actualizarCantidad(model.IdPresupuesto, model.IdProducto, cant);
+        }else
+        {
+            presu.AgregarProductoAPresupuesto(model.IdPresupuesto, model.IdProducto, model.Cantidad);
+        }        
+        
+        return RedirectToAction("Details", new { id = model.IdPresupuesto });
     }
 
 
 
+    [HttpGet]
+
+    public IActionResult EditCantidad(int idProducto, int idPresupuesto)
+    {
+        List<Productos> productos = producto.GetAll();
+
+        var model=new AgregarProductoViewModel(idProducto, idPresupuesto);
+
+        return View(model);
+        
+    }
+
+    [HttpPost]
+    public IActionResult EditCantidad(AgregarProductoViewModel model)
+    {
+
+        if (!ModelState.IsValid)
+        {   
+            ModelState.AddModelError("IdProducto", "Falta producto");
+            ModelState.AddModelError("IdPresupuesto", "Falta presupuesto");
+            return View(model);
+        }
+
+        presu.actualizarCantidad(model.IdPresupuesto,model.IdProducto, model.Cantidad);
+        return RedirectToAction("Details", new { id = model.IdPresupuesto });
+    }
 
 
 
@@ -201,4 +250,7 @@ public class PresupuestoController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-}
+}//asp-route-idProducto
+//osea porque route se llama idProducto entonces en el get debe llamarse asi?
+//Sí, exactamente.
+//En ASP.NET Core MVC, los nombres de las variables que vos pasás con asp-route-xxxx deben coincidir con los nombres de los parámetros del método GET. Si no coinciden, el valor no se enlaza y te llega 0, null, o el valor por defecto.

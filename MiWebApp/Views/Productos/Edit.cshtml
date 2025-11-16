@@ -3,23 +3,28 @@
     <h3>EDITAR PRODUCTOS</h3>
 </section>
 <section>
-<form asp-controller="Productos" asp-action="Edit" method="post">
-    
-    <section>
-        <input asp-for="IdProducto" type="hidden"class="form-control" />
-    </section>
+    <form asp-controller="Productos" asp-action="Edit" method="post">
 
-    <section>
-        <label asp-for="Descripcion">Descripcion del producto</label>
-        <input asp-for="Descripcion" class="form-control" />
-    </section>
+        <section>
+            <input asp-for="IdProducto" type="hidden" class="form-control" />
+        </section>
 
-    <section>
-        <label asp-for="Precio">Precio del producto</label>
-        <input asp-for="Precio" class="form-control" />
-    </section>
-     <button type="submit">Enviar</button>
-</form>
+        <section>
+            <label asp-for="Descripcion">Descripcion del producto</label>
+            <input asp-for="Descripcion" class="form-control" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </section>
+
+        <section>
+            <label asp-for="Precio">Precio del producto</label>
+            <input asp-for="Precio" class="form-control" />
+            <span asp-validation-for="Precio" class="text-danger"></span>
+        </section>
+        <button type="submit">Enviar</button>
+    </form>
 
 
 </section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

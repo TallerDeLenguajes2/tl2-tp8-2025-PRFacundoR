@@ -9,15 +9,20 @@
     <section>
         <label asp-for="NombreDestinatario">Nombre del Destinatario </label>
         <input asp-for="NombreDestinatario" class="form-control" />
+        <span asp-validation-for="NombreDestinatario" class="text-danger"></span>
     </section>
 
     <section>
         <label asp-for="FechaCreacion">Fecha del Presupuesto</label>
         <input asp-for="FechaCreacion" class="form-control" />
+        <span asp-validation-for="FechaCreacion" class="text-danger"></span>
+
     </section>
      <button type="submit">Enviar</button>
 </form>
 
 
 </section>
+
+@section Scripts{<partial name="_ValidationScriptsPartial"/>}
 

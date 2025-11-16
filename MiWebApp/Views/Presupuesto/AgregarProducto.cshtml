@@ -14,18 +14,28 @@
     <section class="mb-3">
         <label asp-for="IdProducto" class="control-label"></label>
         <select asp-for="IdProducto" asp-items="@Model.ListaProductos" class="form-control">
-        <option value="">-- Seleccionar Producto --</option>
+            <option value="">-- Seleccionar Producto --</option>
         </select>
-
-        <section class="mb-3">
+        <span asp-validation-for="IdProducto" class="text-danger"></span>
+    </section>
+    <section class="mb-3">
         <label asp-for="Cantidad" class="control-label"></label>
-        <input asp-for="Cantidad" class="form-control" />
-        </section>
+        <input asp-for="Cantidad" class="form-control" min=1 />
+        <span asp-validation-for="Cantidad" class="text-danger"></span>
+    </section>
 
-        <button type="submit" class="btn btn-primary">Agregar</button>
+    <button type="submit" class="btn btn-primary">Agregar</button>
 </form>
 
-<section><form asp-controller="Presupuesto" asp-action="Details" method="post">
-    <input type="hidden" asp-for="IdPresupuesto" />
-    <button type="submit" class="btn btn-primary">Detalle</button>
-</form> </section><!-- , VER EL TEMA DE QUE PASA CUANDO AGREGAN ALGO QUE YA EXISTE Y HACER EL TEMA DE LAS CANTIDADES, VER EL TEMA DE LOS SPAN Y VALIDACIONES MODEL.VALID EN TODOS LADOS PONER, ETC-->
+<section>
+
+    <a asp-controller="Presupuesto" asp-action="Index" class="btn btn-primary">
+        Index
+    </a>
+
+
+</section>
+<!-- , VER EL TEMA DE QUE PASA CUANDO AGREGAN ALGO QUE YA EXISTE Y HACER EL TEMA DE LAS CANTIDADES, VER EL TEMA DE LOS SPAN Y VALIDACIONES MODEL.VALID EN TODOS LADOS PONER, ETC-->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,25 +3,31 @@
     <h3>EDITAR PRESUPUESTOS</h3>
 </section>
 <section>
-<form asp-controller="Presupuesto" asp-action="Edit" >
+    <form asp-controller="Presupuesto" asp-action="Edit">
 
-    <section >
-            <input asp-for="IdPresupuesto" type="hidden"class="form-control" />
+        <section>
+            <input asp-for="IdPresupuesto" type="hidden" class="form-control" />
 
-    </section>
-    
-    <section>
-        <label asp-for="NombreDestinatario">Nombre del destinatario</label>
-        <input asp-for="NombreDestinatario" class="form-control" />
-    </section>
+        </section>
+
+        <section>
+            <label asp-for="NombreDestinatario">Nombre del destinatario</label>
+            <input asp-for="NombreDestinatario" class="form-control" />
+            <span asp-validation-for="NombreDestinatario" class="text-danger"></span>
+        </section>
 
 
-    <section>
-        <label asp-for="FechaCreacion">Fecha de Creacion</label>
-        <input asp-for="FechaCreacion" class="form-control" />
-    </section>
-     <button type="submit">Enviar</button>
-</form>
+        <section>
+            <label asp-for="FechaCreacion">Fecha de Creacion</label>
+            <input asp-for="FechaCreacion" class="form-control" />
+            <span asp-validation-for="FechaCreacion" class="text-danger"></span>
 
-<!--falta poner la posibilidad de editar ademas del presupuesto, los productos y sus detalles--->
+        </section>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <!--falta poner la posibilidad de editar ademas del presupuesto, los productos y sus detalles--->
 </section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

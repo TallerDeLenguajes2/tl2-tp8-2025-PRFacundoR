@@ -1,0 +1,34 @@
+@model MiWebApp.ViewModels.AgregarProductoViewModel
+
+<section>
+    <h3>Actualizar Cantidad</h3>
+</section>
+
+
+<section>
+<form asp-controller="Presupuesto" asp-action="EditCantidad" method="post">
+    <section class="mb-3">
+        <input type="hidden" asp-for="IdProducto" />
+    </section>
+
+    <section class="mb-3">
+        <input type="hidden" asp-for="IdPresupuesto" />
+    </section>
+      
+        <section class="mb-3">
+        <label asp-for="Cantidad" class="control-label"></label>
+        <input asp-for="Cantidad" class="form-control" min=1 />
+        <span asp-validation-for="Cantidad" class="text-danger"></span>
+        </section>
+
+        <button type="submit" class="btn btn-primary">Agregar</button>
+</form>
+</section>
+<section> 
+
+    <a asp-controller="Presupuesto"
+   asp-action="Index"
+   class="btn btn-primary">
+    Index
+</a>
+</section>

@@ -131,5 +131,4 @@ public int ActualizarProducto(int idProduc, Productos produc)
         }
     }
 
-   
 }

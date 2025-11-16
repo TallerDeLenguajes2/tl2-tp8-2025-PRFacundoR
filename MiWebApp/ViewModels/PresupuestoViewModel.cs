@@ -60,4 +60,7 @@ public class PresupuestoViewModel
         }
         return suma;
     }
+
+
+    
 }

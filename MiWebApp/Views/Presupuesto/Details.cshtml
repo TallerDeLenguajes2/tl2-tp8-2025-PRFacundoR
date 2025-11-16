@@ -5,7 +5,7 @@
     <h3>ENCONTRAR PRESUPUESTOS</h3>
 </section>
 
-<!---<section>
+@{/*<section>
     <form asp-controller="Presupuesto" asp-action="Details" method="post">
         <section>
             
@@ -13,7 +13,7 @@
         </section>
         <button type="submit" class="btn btn-primary mt-2">Enviar</button>
     </form>
-</section>--->
+</section>*/}
 
 @if (Model != null && Model.Detalle != null && Model.Detalle.Any())
 {
@@ -34,7 +34,7 @@
 
             <tbody>
 
-            <a asp-controller="Presupuesto" asp-action="AgregarProducto" asp-route-id="@Model.IdPresupuesto" class="btn btn-primary">Agregar Producto</a><!---metodo get---->
+            <a asp-controller="Presupuesto" asp-action="AgregarProducto" asp-route-id="@Model.IdPresupuesto" class="btn btn-primary">Agregar Producto</a>
                 <tr>
                     <td>@Model.IdPresupuesto</td>
                     <td>@Model.NombreDestinatario</td>
@@ -63,7 +63,7 @@
                                         <td>@detalle.Cantidad</td>
                                         <td>@detalle.Producto.Descripcion</td>
                                         <td>@detalle.Producto.Precio</td>
-                                        <td><a asp-controller="Productos" asp-action="EditCantidad" class="btn btn-primary">Modificar Cantidad</a> </td>
+                                        <td><a asp-controller="Presupuesto" asp-action="EditCantidad" asp-route-idProducto="@detalle.Producto.IdProducto" asp-route-idPresupuesto="@Model.IdPresupuesto" class="btn btn-primary">Modificar Cantidad</a> </td>
                                     </tr>
                                 }
                             </tbody>

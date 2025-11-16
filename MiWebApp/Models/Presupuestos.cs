@@ -48,5 +48,13 @@ public class Presupuestos
         return suma;
     }
 
+        public int cantidadDeUnProducto(int idProd)
+    {   
+        
+        
+        return Detalle.FirstOrDefault(p=>p.Producto.IdProducto==idProd).Cantidad;
+    }
+
+
 
 }

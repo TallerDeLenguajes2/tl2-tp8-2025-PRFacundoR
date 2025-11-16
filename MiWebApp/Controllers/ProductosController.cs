@@ -44,7 +44,11 @@ public class ProductosController : Controller
 
     public IActionResult Details(int id)
     {
-        return View(new ProductoViewModel(id));
+
+        var aux = producto.GetAll();
+        var aux1 = aux.FirstOrDefault(p => p.IdProducto == id);
+
+        return View(new ProductoViewModel(aux1));
     }
 
 
@@ -54,6 +58,9 @@ public class ProductosController : Controller
     {
         /*List<Productos> productos = producto.GetAll();
         var produc=productos.FirstOrDefault(p=>p.IdProducto==prodVM.IdProducto);*/
+
+
+
         var aux = producto.ObtenerProductoPorNombre(prodVM.IdProducto);
         var aux1 = new ProductoViewModel(aux);
 
@@ -70,7 +77,7 @@ public class ProductosController : Controller
         List<Productos> productos = producto.GetAll();
         int idDeUltimo = productos.LastOrDefault().IdProducto;
         return View(new ProductoViewModel(idDeUltimo + 1));
-        
+
     }
 
 
@@ -122,8 +129,13 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult Edit(ProductoViewModel producVM)
     {
+        if (!ModelState.IsValid)
+        {
+            // vuelve a la vista, mostrando los errores
+            return View(producVM);
+        }
 
-
+        
         var produ = new Productos(producVM);
 
         producto.ActualizarProducto(produ.IdProducto, produ);
