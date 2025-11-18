@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@inject MiWebApp.Interfaces.IAutentificarService auth
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,6 +12,11 @@
 </head>
 <body>
     <header>
+        
+        @if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
+        {
+            <a asp-controller="Login" asp-action="Logout">Cerrar sesión</a>
+        }
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiWebApp</a>
@@ -38,6 +45,27 @@
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Presupuesto" asp-action="Index">Presupuesto</a>
                                         </li>--->
                     </ul>
+
+                    <ul class="navbar-nav">
+                @if (!auth.IsAuthenticated())
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Login" asp-action="Index">Iniciar sesión</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <span class="nav-link">Hola @User.Identity?.Name</span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" asp-controller="Login" asp-action="Logout">Cerrar sesión</a>
+                    </li>
+                }
+            </ul>
+
+
                 </div>
             </div>
         </nav>

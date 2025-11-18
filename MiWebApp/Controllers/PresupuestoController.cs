@@ -9,22 +9,38 @@ using MiWebApp.ViewModels;
 using MiWebApp.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MiWebApp.Interfaces;
-using Microsoft.AspNetCore.Authentication;
 
 public class PresupuestoController : Controller
 {
-    private IPresupuestoRepository presu;
+    private readonly IPresupuestoRepository presu;
 
-    private IAutentificarService autorizacion;
-    private ProductoRepositorio producto;
-    public PresupuestoController(IPresupuestoRepository prR ,AuntentificarService auto)
-    {//porque ya no se usa new presupuesto repo?
+    private readonly IAutentificarService autorizacon;
+    private readonly IProductoRepository producto;
+
+
+    public PresupuestoController(IPresupuestoRepository prR, IAutentificarService auto, IProductoRepository prod)
+    {//porque ya no se usa new presupuesto repo? porque lo hace el builder
         presu = prR;
-        producto = new ProductoRepositorio();
-        autorizacion=auto;
+        producto = prod;
+        autorizacon = auto;
     }
 
+    private IActionResult CheckAdminPermissions()
+    {
+        // 1. No logueado? -> vuelve al login
+        if (!autorizacon.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
 
+        // 2. No es Administrador? -> Da Error
+        if (!autorizacon.HasAccesLevel("Administrador"))
+        {
+            // Llamamos a AccesoDenegado (llama a la vista correspondiente de Productos)
+            return RedirectToAction(nameof(AccesoDenegado));
+        }
+        return null; // Permiso concedido
+    }
 
 
 
@@ -32,9 +48,22 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
+        if (!autorizacon.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        if (autorizacon.HasAccesLevel("Administrador")||autorizacon.HasAccesLevel("Cliente"))
+        {
+               List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
         List<PresupuestoViewModel> presupuestosVM = presupuestos.Select(p => new PresupuestoViewModel(p)).ToList();
         return View(presupuestosVM);
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
+     
 
     }
 
@@ -53,21 +82,43 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult Details(int id)
     {
+        if (!autorizacon.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        if (autorizacon.HasAccesLevel("Administrador")||autorizacon.HasAccesLevel("Cliente"))
+        {
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
         var aux = presupuestos.FirstOrDefault(p => p.IdPresupuesto == id);
-
-
-
         return View(new PresupuestoViewModel(aux));
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
     }
 
     [HttpPost]
 
     public IActionResult Details(PresupuestoViewModel pr)
     {
+        if (!autorizacon.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        if (autorizacon.HasAccesLevel("Administrador")||autorizacon.HasAccesLevel("Cliente"))
+        {
         var aux = presu.obtenerPresupuestoPorId(pr.IdPresupuesto);
         var aux1 = new PresupuestoViewModel(aux);
         return View(aux1);
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
 
     }
 
@@ -77,6 +128,10 @@ public class PresupuestoController : Controller
 
     public IActionResult Create()
     {
+
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
         int idDeUltimo = presupuestos.LastOrDefault().IdPresupuesto;
         var pvm = new PresupuestoViewModel(idDeUltimo + 1);
@@ -89,6 +144,9 @@ public class PresupuestoController : Controller
 
     public IActionResult Create(PresupuestoViewModel presupuestoVM)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
 
         if (!(presupuestoVM.FechaCreacion <= DateTime.Now))
         {
@@ -120,6 +178,9 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
         var presuEncontrado = presupuestos.FirstOrDefault(p => p.IdPresupuesto == id);
 
@@ -136,6 +197,8 @@ public class PresupuestoController : Controller
     [HttpPost]
     public IActionResult Edit(PresupuestoViewModel presupuesto)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
 
         if (!(presupuesto.FechaCreacion <= DateTime.Now))
         {
@@ -148,7 +211,7 @@ public class PresupuestoController : Controller
             return View(presupuesto);
         }
 
-         
+
         var presup = new Presupuestos(presupuesto);
         presu.ActualizarPresupuesto(presup.IdPresupuesto, presup);
         return RedirectToAction("Index");
@@ -158,6 +221,8 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
 
         return View(new PresupuestoViewModel(id));
     }
@@ -167,7 +232,9 @@ public class PresupuestoController : Controller
     [HttpPost]
     public IActionResult Delete(PresupuestoViewModel presupuesto)
     {
-        
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         presu.borrarPresupuesto(presupuesto.IdPresupuesto);
         return RedirectToAction("Index");
     }
@@ -175,6 +242,9 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult AgregarProducto(int id)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         List<Productos> productos = producto.GetAll();
 
         AgregarProductoViewModel model = new AgregarProductoViewModel()
@@ -192,6 +262,9 @@ public class PresupuestoController : Controller
     [HttpPost]
     public IActionResult AgregarProducto(AgregarProductoViewModel model)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         if (!ModelState.IsValid)
         {
             List<Productos> productos = producto.GetAll();
@@ -200,17 +273,18 @@ public class PresupuestoController : Controller
 
         }
 
-        if (presu.GetAllPresupuestos().Exists(p=>p.IdPresupuesto==model.IdPresupuesto && p.Detalle.Exists(p1=>p1.Producto.IdProducto==model.IdProducto)))
+        if (presu.GetAllPresupuestos().Exists(p => p.IdPresupuesto == model.IdPresupuesto && p.Detalle.Exists(p1 => p1.Producto.IdProducto == model.IdProducto)))
         {
-           var auxPresu= presu.GetAllPresupuestos().FirstOrDefault(p=>p.IdPresupuesto==model.IdPresupuesto);
-        
-           var cant= auxPresu.cantidadDeUnProducto(model.IdProducto)+ model.Cantidad;
+            var auxPresu = presu.GetAllPresupuestos().FirstOrDefault(p => p.IdPresupuesto == model.IdPresupuesto);
+
+            var cant = auxPresu.cantidadDeUnProducto(model.IdProducto) + model.Cantidad;
             presu.actualizarCantidad(model.IdPresupuesto, model.IdProducto, cant);
-        }else
+        }
+        else
         {
             presu.AgregarProductoAPresupuesto(model.IdPresupuesto, model.IdProducto, model.Cantidad);
-        }        
-        
+        }
+
         return RedirectToAction("Details", new { id = model.IdPresupuesto });
     }
 
@@ -220,28 +294,41 @@ public class PresupuestoController : Controller
 
     public IActionResult EditCantidad(int idProducto, int idPresupuesto)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         List<Productos> productos = producto.GetAll();
 
-        var model=new AgregarProductoViewModel(idProducto, idPresupuesto);
+        var model = new AgregarProductoViewModel(idProducto, idPresupuesto);
 
         return View(model);
-        
+
     }
 
     [HttpPost]
     public IActionResult EditCantidad(AgregarProductoViewModel model)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
 
         if (!ModelState.IsValid)
-        {   
+        {
             ModelState.AddModelError("IdProducto", "Falta producto");
             ModelState.AddModelError("IdPresupuesto", "Falta presupuesto");
             return View(model);
         }
 
-        presu.actualizarCantidad(model.IdPresupuesto,model.IdProducto, model.Cantidad);
+        presu.actualizarCantidad(model.IdPresupuesto, model.IdProducto, model.Cantidad);
         return RedirectToAction("Details", new { id = model.IdPresupuesto });
     }
+
+
+    public IActionResult AccesoDenegado()
+    {
+        return View();
+    }
+
+
 
 
 
@@ -251,6 +338,6 @@ public class PresupuestoController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }//asp-route-idProducto
-//osea porque route se llama idProducto entonces en el get debe llamarse asi?
-//Sí, exactamente.
-//En ASP.NET Core MVC, los nombres de las variables que vos pasás con asp-route-xxxx deben coincidir con los nombres de los parámetros del método GET. Si no coinciden, el valor no se enlaza y te llega 0, null, o el valor por defecto.
+ //osea porque route se llama idProducto entonces en el get debe llamarse asi?
+ //Sí, exactamente.
+ //En ASP.NET Core MVC, los nombres de las variables que vos pasás con asp-route-xxxx deben coincidir con los nombres de los parámetros del método GET. Si no coinciden, el valor no se enlaza y te llega 0, null, o el valor por defecto.

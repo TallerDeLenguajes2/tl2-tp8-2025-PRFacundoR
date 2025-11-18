@@ -4,13 +4,13 @@ using MiWebApp.Models;
 
 public interface IPresupuestoRepository
 {
-    public List<Presupuestos> GetAllPresupuestos();
-    public int CrearPresupuesto(Presupuestos presupuesto);
-    public void borrarPresupuesto(int id);
-    public Presupuestos obtenerPresupuestoPorId(int id);
-    public void AgregarProductoAPresupuesto(int idPresupuesto, int idProducto, int cantidad);
-    public void ActualizarPresupuesto(int idPresu, Presupuestos presu);
-    public void actualizarCantidad(int idPresupuesto, int idProducto, int cantidad);
+    List<Presupuestos> GetAllPresupuestos();
+    int CrearPresupuesto(Presupuestos presupuesto);
+    void borrarPresupuesto(int id);
+    Presupuestos obtenerPresupuestoPorId(int id);
+    void AgregarProductoAPresupuesto(int idPresupuesto, int idProducto, int cantidad);
+    void ActualizarPresupuesto(int idPresu, Presupuestos presu);
+    void actualizarCantidad(int idPresupuesto, int idProducto, int cantidad);
 
 } 
 

@@ -1,0 +1,29 @@
+@model MiWebApp.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<h2 class="text-center">Iniciar sesión</h2>
+
+<form asp-controller="Login" asp-action="Login" method="post" class="mt-4">
+
+    <div class="form-group">
+        <label asp-for="Username"></label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4 w-100">Ingresar</button>
+
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

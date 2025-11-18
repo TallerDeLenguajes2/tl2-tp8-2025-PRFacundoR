@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 
 using MiWebApp.Interfaces;
 using MiWebApp.Repositorios;
+using MiWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddSession(options=>{
 //que hace esto?
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserRepository, UsuarioRepository>();
-builder.Services.AddScoped<IAutentificarService,AuntentificarService >();
+builder.Services.AddScoped<IAutentificarService,AutentificarService >();
 builder.Services.AddScoped<IProductoRepository, ProductoRepositorio>();
 builder.Services.AddScoped<IPresupuestoRepository,PresupuestosRepository>();
 
