@@ -9,5 +9,7 @@ public class LoginViewModel
     public string Username{get; set;}
     
 [Required(ErrorMessage = "La contraseña es obligatoria.")]    public string  Password{get;set;}
+
+ public string ErrorMessage{get;set;}
     
 }

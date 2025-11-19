@@ -30,6 +30,8 @@ public class LoginController : Controller
     {
         if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
         {
+            //model.ErrorMessage = "Debe ingresar usuario y contraseña.";
+
             return View("Index", model);
         }
         if (auntetificacion.Login(model.Username, model.Password))
@@ -38,7 +40,9 @@ public class LoginController : Controller
         }
 
 
-        ModelState.AddModelError( "","Credenciales inválidas.");
+        
+        model.ErrorMessage = "Usuario o contraseña incorrecto.";
+        
         return View("Index", model);
     }
     // [HttpGet] Cierra sesión

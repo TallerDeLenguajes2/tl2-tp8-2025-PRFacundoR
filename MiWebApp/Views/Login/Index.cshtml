@@ -5,7 +5,12 @@
 }
 
 <h2 class="text-center">Iniciar sesión</h2>
-
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
 <form asp-controller="Login" asp-action="Login" method="post" class="mt-4">
 
     <div class="form-group">
@@ -24,6 +29,4 @@
 
 </form>
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+@section Scripts{<partial name="_ValidationScriptsPartial"/>}

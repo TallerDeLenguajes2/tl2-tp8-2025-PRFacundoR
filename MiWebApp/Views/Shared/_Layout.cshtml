@@ -13,10 +13,7 @@
 <body>
     <header>
         
-        @if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
-        {
-            <a asp-controller="Login" asp-action="Logout">Cerrar sesión</a>
-        }
+        
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiWebApp</a>
@@ -55,9 +52,6 @@
                 }
                 else
                 {
-                    <li class="nav-item">
-                        <span class="nav-link">Hola @User.Identity?.Name</span>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link text-danger" asp-controller="Login" asp-action="Logout">Cerrar sesión</a>
