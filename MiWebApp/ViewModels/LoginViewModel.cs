@@ -4,7 +4,7 @@ namespace MiWebApp.ViewModels;
 
 public class LoginViewModel
 {
-
+    
     [Required(ErrorMessage = "El usuario es obligatorio.")]
     public string Username{get; set;}
     

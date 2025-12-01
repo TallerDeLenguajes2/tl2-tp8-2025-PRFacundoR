@@ -108,9 +108,19 @@ public class ProductosController : Controller
 
         var securityCheck = CheckAdminPermissions();
         if (securityCheck != null) return securityCheck;
-        List<Productos> productos = producto.GetAll();
-        int idDeUltimo = productos.LastOrDefault().IdProducto;
-        return View(new ProductoViewModel(idDeUltimo + 1));
+       // 1. Obtener todos los productos.
+    List<Productos> productos = producto.GetAll();
+    
+    int siguienteId = 1; // Valor predeterminado si la lista está vacía.
+    
+    // 2. Verificar si la lista no es nula Y tiene elementos.
+    if (productos != null && productos.Any())
+    {
+        // 3. Si hay productos, obtén el Id del último y suma 1.
+        int idDeUltimo = productos.LastOrDefault().IdProducto; 
+        siguienteId = idDeUltimo + 1;
+    }
+        return View(new ProductoViewModel(siguienteId));
 
     }
 

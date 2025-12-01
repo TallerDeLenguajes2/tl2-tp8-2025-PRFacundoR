@@ -28,9 +28,16 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult Login(LoginViewModel model)
     {
+
+        if (!ModelState.IsValid)
+    {
+        // Los mensajes de error de los Data Annotations viajan con el 'model'.
+        return View("Index", model); 
+    }
+
         if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
         {
-            //model.ErrorMessage = "Debe ingresar usuario y contraseña.";
+           // model.ErrorMessage = "Debe ingresar usuario y contraseña.";
 
             return View("Index", model);
         }

@@ -133,8 +133,16 @@ public class PresupuestoController : Controller
         if (securityCheck != null) return securityCheck;
 
         List<Presupuestos> presupuestos = presu.GetAllPresupuestos();
+
+
+        int siguienteId = 1;
+        if (presupuestos != null && presupuestos.Any())// la lista que trajimos
+    {
+        // 3. Si hay productos, obtén el Id del último y suma 1.
         int idDeUltimo = presupuestos.LastOrDefault().IdPresupuesto;
-        var pvm = new PresupuestoViewModel(idDeUltimo + 1);
+        siguienteId = idDeUltimo + 1;
+        }
+        var pvm = new PresupuestoViewModel(siguienteId+ 1);
         pvm.FechaCreacion = DateTime.Now;
         return View(pvm);
     }
